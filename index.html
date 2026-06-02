@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio de Esteban Moya Pérez - Desarrollador Web y Experto en Ciberseguridad">
+    <meta name="author" content="Esteban Moya Pérez">
+    <title>Esteban Moya Pérez | Desarrollador Web & Ciberseguridad</title>
+
+    <!-- Tipografía moderna: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================================
+           1. VARIABLES Y RESET GLOBAL
+           ========================================================= */
+        :root {
+            /* Paleta modo oscuro elegante */
+            --bg-primary: #0d1117;      /* Fondo principal */
+            --bg-secondary: #161b22;    /* Fondo de tarjetas/secciones */
+            --bg-tertiary: #21262d;     /* Badges / elementos elevados */
+            --border-color: #30363d;    /* Bordes sutiles */
+            --text-primary: #e6edf3;    /* Texto principal */
+            --text-secondary: #8b949e;  /* Texto secundario */
+            --accent: #58a6ff;          /* Azul de acento */
+            --accent-hover: #79c0ff;    /* Azul hover */
+            --accent-green: #3fb950;    /* Verde (ciberseguridad) */
+            --gradient: linear-gradient(135deg, #58a6ff 0%, #3fb950 100%);
+
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --radius: 14px;
+            --transition: 0.3s ease;
+        }
+
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Compensa el nav fijo */
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Contenedor centrado reutilizable */
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* =========================================================
+           2. NAVEGACIÓN FIJA
+           ========================================================= */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(13, 17, 23, 0.85);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color var(--transition);
+        }
+
+        /* Subrayado animado en hover */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* =========================================================
+           3. HERO / PRESENTACIÓN
+           ========================================================= */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 70px;
+        }
+
+        /* Resplandor decorativo de fondo */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.12), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 760px;
+        }
+
+        .hero-greeting {
+            display: inline-block;
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.35rem 0.9rem;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            background-color: var(--bg-secondary);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h2 {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Grupo de botones */
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Botones reutilizables */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.6rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: #0d1117;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(88, 166, 255, 0.35);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* =========================================================
+           4. ESTRUCTURA GENERAL DE SECCIONES
+           ========================================================= */
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .section-title span {
+            color: var(--accent);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+
+        /* =========================================================
+           5. SOBRE MÍ
+           ========================================================= */
+        .about {
+            background-color: var(--bg-secondary);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+        }
+
+        /* Estadísticas rápidas en grid */
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem 1rem;
+            transition: transform var(--transition), border-color var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .stat-card .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-card .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* =========================================================
+           6. HABILIDADES (GRID + BADGES)
+           ========================================================= */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .skill-category {
+            position: relative;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            overflow: hidden;
+            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+        }
+
+        /* Barra de acento superior que se revela en hover */
+        .skill-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .skill-category:hover::before {
+            transform: scaleX(1);
+        }
+
+        .skill-category h3 {
+            font-size: 1.15rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Icono dentro de un círculo destacado */
+        .skill-category h3 .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            font-size: 1.3rem;
+            border-radius: 12px;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition), background-color var(--transition);
+        }
+
+        .skill-category:hover h3 .icon {
+            transform: rotate(-8deg) scale(1.08);
+            background: var(--gradient);
+        }
+
+        /* Contenedor de etiquetas/badges */
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+        }
+
+        .badge {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: background-color var(--transition), color var(--transition), transform var(--transition), border-color var(--transition);
+        }
+
+        .badge:hover {
+            background: var(--gradient);
+            color: #0d1117;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* Badge destacado (nivel avanzado/experto) */
+        .badge-pro {
+            background-color: rgba(63, 185, 80, 0.12);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .badge-pro:hover {
+            background: var(--accent-green);
+            color: #0d1117;
+        }
+
+        /* Leyenda de nivel avanzado en el subtítulo */
+        .legend-pro {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           7. PROYECTOS (CARDS CON HOVER)
+           ========================================================= */
+        .projects {
+            background-color: var(--bg-secondary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+        }
+
+        .project-status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 0.2rem 0.7rem;
+            border-radius: 999px;
+        }
+
+        .project-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech .badge {
+            font-size: 0.78rem;
+            padding: 0.3rem 0.7rem;
+        }
+
+        .project-link {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: gap var(--transition), color var(--transition);
+        }
+
+        .project-link:hover {
+            color: var(--accent-hover);
+            gap: 0.7rem;
+        }
+
+        /* =========================================================
+           8. EDUCACIÓN / FORMACIÓN (TIMELINE)
+           ========================================================= */
+        .timeline {
+            max-width: 750px;
+            margin: 0 auto;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        /* Línea vertical del timeline */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 2.5rem 2rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        /* Punto del timeline */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.55rem;
+            top: 0.25rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--gradient);
+            border: 3px solid var(--bg-primary);
+        }
+
+        .timeline-item h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .timeline-item .timeline-meta {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .timeline-item.award h3::after {
+            content: ' 🏆';
+        }
+
+        /* =========================================================
+           9. CONTACTO / FOOTER
+           ========================================================= */
+        .footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer h2 {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Enlaces sociales/contacto */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            padding: 0.7rem 1.3rem;
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: transform var(--transition), border-color var(--transition), color var(--transition);
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .footer-copy {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* =========================================================
+           10. RESPONSIVE (MÓVIL)
+           ========================================================= */
+        @media (max-width: 768px) {
+            /* Ocultamos los enlaces de nav en móvil, dejamos el logo */
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 4rem 0;
+            }
+
+            .hero {
+                text-align: left;
+            }
+
+            .hero-buttons {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ NAVEGACIÓN ============ -->
+    <header>
+        <nav class="navbar" aria-label="Navegación principal">
+            <div class="container">
+                <a href="#inicio" class="nav-logo">EM<span>.</span></a>
+                <ul class="nav-links">
+                    <li><a href="#sobre-mi">Sobre mí</a></li>
+                    <li><a href="#habilidades">Habilidades</a></li>
+                    <li><a href="#proyectos">Proyectos</a></li>
+                    <li><a href="#formacion">Formación</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ============ HERO ============ -->
+        <section class="hero" id="inicio">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-greeting">👋 ¡Hola! Soy Esteban</span>
+                    <h1>Esteban Moya Pérez<br><span class="highlight">Desarrollo Web &amp; Ciberseguridad</span></h1>
+                    <h2>Construyo soluciones web seguras, limpias y eficientes.</h2>
+                    <p class="hero-location">📍 Granada, España &middot; Disponible en remoto</p>
+                    <div class="hero-buttons">
+                        <a href="mailto:estebansmp.contacto@gmail.com" class="btn btn-primary">✉️ Contáctame</a>
+                        <a href="https://github.com/What-a-Shame" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">💻 Ver GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SOBRE MÍ ============ -->
+        <section class="about" id="sobre-mi">
+            <div class="container">
+                <h2 class="section-title">Sobre <span>mí</span></h2>
+                <p class="section-subtitle">Un poco sobre quién soy y qué me mueve</p>
+                <div class="about-content">
+                    <p>
+                        Entusiasta de la tecnología, sobre todo de la seguridad y protección de sistemas.
+                        Busco siempre la eficiencia y la mejor solución para cada problema, combinando el
+                        desarrollo web con una mentalidad orientada a la ciberseguridad.
+                    </p>
+                    <div class="about-stats">
+                        <article class="stat-card">
+                            <div class="stat-number">2+</div>
+                            <div class="stat-label">Proyectos reales</div>
+                        </article>
+                        <article class="stat-card">
+                            <div class="stat-number">DAW</div>
+                            <div class="stat-label">Grado Superior</div>
+                        </article>
+                        <article class="stat-card">
+                            <div class="stat-number">🔐</div>
+                            <div class="stat-label">Enfoque en seguridad</div>
+                        </article>
+                        <article class="stat-card">
+                            <div class="stat-number">8.6</div>
+                            <div class="stat-label">Titulación UE</div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ HABILIDADES ============ -->
+        <section class="skills" id="habilidades">
+            <div class="container">
+                <h2 class="section-title">Habilidades <span>técnicas</span></h2>
+                <p class="section-subtitle">
+                    Tecnologías y herramientas con las que trabajo &middot;
+                    <span class="legend-pro">● en verde</span> = nivel experto
+                </p>
+                <div class="skills-grid">
+                    <!-- Tecnologías Core -->
+                    <article class="skill-category">
+                        <h3><span class="icon">⚡</span> Desarrollo Web</h3>
+                        <div class="badges">
+                            <span class="badge badge-pro">HTML5</span>
+                            <span class="badge badge-pro">CSS3</span>
+                            <span class="badge badge-pro">JavaScript</span>
+                            <span class="badge badge-pro">PHP</span>
+                            <span class="badge badge-pro">SQL</span>
+                            <span class="badge badge-pro">HTML Semántico</span>
+                            <span class="badge badge-pro">UI/UX &amp; Responsive</span>
+                        </div>
+                    </article>
+
+                    <!-- Frameworks / Herramientas -->
+                    <article class="skill-category">
+                        <h3><span class="icon">🛠️</span> Frameworks &amp; Herramientas</h3>
+                        <div class="badges">
+                            <span class="badge badge-pro">XAMPP</span>
+                            <span class="badge badge-pro">Bootstrap</span>
+                            <span class="badge badge-pro">Git</span>
+                            <span class="badge">React</span>
+                            <span class="badge">Node.js</span>
+                            <span class="badge">WordPress</span>
+                        </div>
+                    </article>
+
+                    <!-- Ciberseguridad -->
+                    <article class="skill-category">
+                        <h3><span class="icon">🔐</span> Ciberseguridad</h3>
+                        <div class="badges">
+                            <span class="badge badge-pro">Pentesting</span>
+                            <span class="badge badge-pro">Forense de datos</span>
+                            <span class="badge badge-pro">Binary Reading &amp; Reverse Engineering</span>
+                            <span class="badge badge-pro">Prevención XSS</span>
+                            <span class="badge badge-pro">Validación de tokens</span>
+                            <span class="badge">Logging</span>
+                            <span class="badge badge-pro">Hardening</span>
+                            <span class="badge">Bash</span>
+                            <span class="badge badge-pro">PowerShell (PS1)</span>
+                        </div>
+                    </article>
+
+                    <!-- SEO / Marketing Digital -->
+                    <article class="skill-category">
+                        <h3><span class="icon">📈</span> SEO &amp; Analítica</h3>
+                        <div class="badges">
+                            <span class="badge badge-pro">SEO</span>
+                            <span class="badge badge-pro">SEM</span>
+                            <span class="badge badge-pro">Google Search Console</span>
+                            <span class="badge badge-pro">Google Tag Manager</span>
+                            <span class="badge badge-pro">Google Analytics</span>
+                        </div>
+                    </article>
+
+                    <!-- En aprendizaje -->
+                    <article class="skill-category">
+                        <h3><span class="icon">📚</span> En aprendizaje actual</h3>
+                        <div class="badges">
+                            <span class="badge">TypeScript</span>
+                            <span class="badge">Next.js</span>
+                            <span class="badge">C++</span>
+                            <span class="badge">C</span>
+                            <span class="badge">C#</span>
+                        </div>
+                    </article>
+
+                    <!-- Inteligencia Artificial / LLM -->
+                    <article class="skill-category">
+                        <h3><span class="icon">🤖</span> IA &amp; LLM</h3>
+                        <div class="badges">
+                            <span class="badge badge-pro">LLM</span>
+                            <span class="badge badge-pro">Prompt Caching</span>
+                            <span class="badge">Agent AI</span>
+                            <span class="badge badge-pro">Prompt Engineering</span>
+                            <span class="badge">Tecnologías relacionadas con LLM</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PROYECTOS ============ -->
+        <section class="projects" id="proyectos">
+            <div class="container">
+                <h2 class="section-title">Proyectos <span>destacados</span></h2>
+                <p class="section-subtitle">Algunos trabajos en los que he aplicado mis conocimientos</p>
+                <div class="projects-grid">
+                    <!-- Proyecto 1 -->
+                    <article class="project-card">
+                        <div class="project-header">
+                            <span class="project-icon">🔒</span>
+                            <span class="project-status">En línea</span>
+                        </div>
+                        <h3>Olé España</h3>
+                        <p>
+                            Web e-commerce creada a código desde cero, con integración de APIs de pago,
+                            seguridad anti-inyección de código XSS, validación de tokens y sistema de logs.
+                        </p>
+                        <div class="project-tech">
+                            <span class="badge">PHP</span>
+                            <span class="badge">CSS3</span>
+                            <span class="badge">JavaScript</span>
+                            <span class="badge">APIs de pago</span>
+                        </div>
+                        <a href="https://olehispania.com" target="_blank" rel="noopener noreferrer" class="project-link">🌐 olehispania.com →</a>
+                    </article>
+
+                    <!-- Proyecto 2 -->
+                    <article class="project-card">
+                        <div class="project-header">
+                            <span class="project-icon">🌱</span>
+                            <span class="project-status">En línea</span>
+                        </div>
+                        <h3>Biotec Ambiental Granada</h3>
+                        <p>
+                            Web para una empresa de control de plagas, desarrollada con
+                            controles de seguridad frente a la inyección de código XSS y validaciones
+                            del lado del servidor.
+                        </p>
+                        <div class="project-tech">
+                            <span class="badge">PHP</span>
+                            <span class="badge">CSS3</span>
+                            <span class="badge">JavaScript</span>
+                        </div>
+                        <a href="https://controldeplagasengranada.com" target="_blank" rel="noopener noreferrer" class="project-link">🌐 controldeplagasengranada.com →</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FORMACIÓN ============ -->
+        <section class="education" id="formacion">
+            <div class="container">
+                <h2 class="section-title">Educación &amp; <span>Formación</span></h2>
+                <p class="section-subtitle">Mi trayectoria académica</p>
+                <div class="timeline">
+                    <article class="timeline-item">
+                        <h3>Grado Superior en Desarrollo de Aplicaciones Web (DAW)</h3>
+                        <span class="timeline-meta">Formación oficial</span>
+                    </article>
+                    <article class="timeline-item award">
+                        <h3>Premio Trayectoria en DAW</h3>
+                        <span class="timeline-meta">Reconocimiento académico</span>
+                    </article>
+                    <article class="timeline-item">
+                        <h3>Máster en Ciberseguridad</h3>
+                        <span class="timeline-meta">Titulación 8.6 UE</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============ CONTACTO / FOOTER ============ -->
+    <footer class="footer" id="contacto">
+        <div class="container">
+            <h2>¿Trabajamos <span class="highlight">juntos</span>?</h2>
+            <p>Estoy abierto a nuevas oportunidades y proyectos. ¡No dudes en escribirme!</p>
+            <div class="social-links">
+                <a href="mailto:estebansmp.contacto@gmail.com">✉️ estebansmp.contacto@gmail.com</a>
+                <a href="https://github.com/What-a-Shame" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
+                <a href="#inicio">⬆️ Volver arriba</a>
+            </div>
+            <p class="footer-copy">
+                &copy; 2026 Esteban Moya Pérez · Desarrollado con HTML5 &amp; CSS3 puro 🔐
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
