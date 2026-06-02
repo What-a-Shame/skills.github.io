@@ -331,8 +331,28 @@
            ========================================================= */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.75rem;
+        }
+
+        .skill-category.span-wide {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 900px) {
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .skill-category.span-wide {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .skill-category {
@@ -441,7 +461,7 @@
         }
 
         /* =========================================================
-           7. PROYECTOS (CARDS CON HOVER)
+           7. PROYECTOS (PREMIUM SHOWCASE)
            ========================================================= */
         .projects {
             background-color: var(--bg-secondary);
@@ -449,15 +469,24 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .project-card {
+            position: relative;
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            padding: 2rem;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
@@ -466,124 +495,476 @@
         .project-card:hover {
             transform: translateY(-8px);
             border-color: var(--accent);
-            box-shadow: var(--shadow);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Barra superior tipo navegador */
+        .project-browser-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background-color: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .browser-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .browser-dot--red { background-color: #ff5f57; }
+        .browser-dot--yellow { background-color: #febc2e; }
+        .browser-dot--green { background-color: #28c840; }
+
+        .browser-url {
+            flex: 1;
+            margin-left: 0.5rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.3rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: 'Inter', monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Cuerpo de la tarjeta */
+        .project-body {
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        /* Resplandor decorativo */
+        .project-body::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.06), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity var(--transition);
+        }
+
+        .project-card:hover .project-body::after {
+            opacity: 1;
         }
 
         .project-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
         .project-icon {
-            font-size: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            font-size: 1.4rem;
+            border-radius: 12px;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition), background-color var(--transition);
         }
 
-        .project-status {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent-green);
-            border: 1px solid var(--accent-green);
-            padding: 0.2rem 0.7rem;
-            border-radius: 999px;
+        .project-card:hover .project-icon {
+            transform: rotate(-6deg) scale(1.1);
+            background: var(--gradient);
         }
 
         .project-card h3 {
-            font-size: 1.35rem;
-            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        /* Estado con punto animado */
+        .project-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent-green);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            background-color: rgba(63, 185, 80, 0.1);
+            padding: 0.3rem 0.75rem;
+            border-radius: 999px;
+            flex-shrink: 0;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: var(--accent-green);
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.5); }
+            50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(63, 185, 80, 0); }
         }
 
         .project-card p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            margin-bottom: 1.25rem;
         }
 
+        /* Features highlights */
+        .project-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .project-feature {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .project-feature .feat-icon {
+            font-size: 0.9rem;
+        }
+
+        /* Tech stack */
         .project-tech {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.45rem;
             margin-bottom: 1.5rem;
         }
 
         .project-tech .badge {
+            font-size: 0.76rem;
+            padding: 0.28rem 0.65rem;
+        }
+
+        /* Enlace CTA */
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.88rem;
+            padding: 0.55rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: var(--bg-tertiary);
+            transition: all var(--transition);
+            margin-top: auto;
+            width: fit-content;
+        }
+
+        .project-link:hover {
+            border-color: var(--accent);
+            background-color: rgba(88, 166, 255, 0.08);
+            gap: 0.8rem;
+        }
+
+        .project-link .link-arrow {
+            transition: transform var(--transition);
+        }
+
+        .project-link:hover .link-arrow {
+            transform: translateX(3px);
+        }
+
+        /* =========================================================
+           8. EDUCACIÓN / FORMACIÓN (CARDS PREMIUM)
+           ========================================================= */
+        .education-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        /* Conector decorativo entre tarjetas */
+        .edu-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            position: relative;
+        }
+
+        .edu-connector::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-green) 100%);
+            opacity: 0.35;
+        }
+
+        .edu-connector-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gradient);
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 12px rgba(88, 166, 255, 0.4);
+        }
+
+        /* Tarjeta de educación */
+        .edu-card {
+            position: relative;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 2rem 2rem 1.75rem;
+            overflow: hidden;
+            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+        }
+
+        .edu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+            border-color: var(--accent);
+        }
+
+        /* Barra de acento superior animada */
+        .edu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .edu-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Resplandor sutil de fondo */
+        .edu-card::after {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.06), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: opacity var(--transition);
+            opacity: 0;
+        }
+
+        .edu-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Cabecera de la tarjeta: icono + info + estado */
+        .edu-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.15rem;
+            margin-bottom: 1rem;
+        }
+
+        .edu-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            font-size: 1.6rem;
+            border-radius: 14px;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition), background-color var(--transition);
+        }
+
+        .edu-card:hover .edu-icon {
+            transform: rotate(-6deg) scale(1.1);
+            background: var(--gradient);
+        }
+
+        .edu-card-info {
+            flex: 1;
+        }
+
+        .edu-card-info h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
+        }
+
+        .edu-institution {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.15rem;
+        }
+
+        .edu-date {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 400;
+        }
+
+        /* Badge de estado (completado, premio, etc.) */
+        .edu-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 999px;
+            flex-shrink: 0;
+            white-space: nowrap;
+            margin-top: 0.15rem;
+        }
+
+        .edu-status--completed {
+            background-color: rgba(63, 185, 80, 0.12);
+            color: var(--accent-green);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
+
+        .edu-status--award {
+            background-color: rgba(255, 193, 7, 0.12);
+            color: #ffca28;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .edu-status--active {
+            background-color: rgba(88, 166, 255, 0.12);
+            color: var(--accent);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            animation: pulse-status 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-status {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Descripción */
+        .edu-description {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.65;
+            margin-bottom: 1.15rem;
+        }
+
+        /* Nota/calificación destacada */
+        .edu-grade {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.45rem 0.9rem;
+            margin-bottom: 1.15rem;
+        }
+
+        .edu-grade-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .edu-grade-value {
+            font-size: 1.1rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Badges de competencias clave */
+        .edu-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+
+        .edu-tags .badge {
             font-size: 0.78rem;
             padding: 0.3rem 0.7rem;
         }
 
-        .project-link {
-            color: var(--accent);
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: gap var(--transition), color var(--transition);
+        /* Premio especial — borde dorado sutil */
+        .edu-card--award {
+            border-color: rgba(255, 193, 7, 0.2);
         }
 
-        .project-link:hover {
-            color: var(--accent-hover);
-            gap: 0.7rem;
+        .edu-card--award::before {
+            background: linear-gradient(135deg, #ffca28 0%, #ff9800 100%);
         }
 
-        /* =========================================================
-           8. EDUCACIÓN / FORMACIÓN (TIMELINE)
-           ========================================================= */
-        .timeline {
-            max-width: 750px;
-            margin: 0 auto;
-            position: relative;
-            padding-left: 2rem;
+        .edu-card--award:hover {
+            border-color: #ffca28;
+            box-shadow: 0 16px 40px rgba(255, 193, 7, 0.15);
         }
 
-        /* Línea vertical del timeline */
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--border-color);
+        .edu-card--award:hover .edu-icon {
+            background: linear-gradient(135deg, #ffca28, #ff9800);
         }
 
-        .timeline-item {
-            position: relative;
-            padding: 0 0 2.5rem 2rem;
-        }
+        @media (max-width: 768px) {
+            .edu-card {
+                padding: 1.5rem;
+            }
 
-        .timeline-item:last-child {
-            padding-bottom: 0;
-        }
+            .edu-card-header {
+                flex-wrap: wrap;
+            }
 
-        /* Punto del timeline */
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2.55rem;
-            top: 0.25rem;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--gradient);
-            border: 3px solid var(--bg-primary);
-        }
-
-        .timeline-item h3 {
-            font-size: 1.15rem;
-            margin-bottom: 0.35rem;
-        }
-
-        .timeline-item .timeline-meta {
-            color: var(--accent);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .timeline-item.award h3::after {
-            content: ' 🏆';
+            .edu-status {
+                margin-top: 0.5rem;
+            }
         }
 
         /* =========================================================
@@ -737,8 +1118,8 @@
                             <div class="stat-label">Enfoque en seguridad</div>
                         </article>
                         <article class="stat-card">
-                            <div class="stat-number">8.6</div>
-                            <div class="stat-label">Titulación UE</div>
+                            <div class="stat-number">CISSP</div>
+                            <div class="stat-label">Certificación ISC2</div>
                         </article>
                     </div>
                 </div>
@@ -755,7 +1136,7 @@
                 </p>
                 <div class="skills-grid">
                     <!-- Tecnologías Core -->
-                    <article class="skill-category">
+                    <article class="skill-category span-wide">
                         <h3><span class="icon">⚡</span> Desarrollo Web</h3>
                         <div class="badges">
                             <span class="badge badge-pro">HTML5</span>
@@ -782,7 +1163,7 @@
                     </article>
 
                     <!-- Ciberseguridad -->
-                    <article class="skill-category">
+                    <article class="skill-category span-wide">
                         <h3><span class="icon">🔐</span> Ciberseguridad</h3>
                         <div class="badges">
                             <span class="badge badge-pro">Pentesting</span>
@@ -822,7 +1203,7 @@
                     </article>
 
                     <!-- Inteligencia Artificial / LLM -->
-                    <article class="skill-category">
+                    <article class="skill-category span-wide">
                         <h3><span class="icon">🤖</span> IA &amp; LLM</h3>
                         <div class="badges">
                             <span class="badge badge-pro">LLM</span>
@@ -840,47 +1221,101 @@
         <section class="projects" id="proyectos">
             <div class="container">
                 <h2 class="section-title">Proyectos <span>destacados</span></h2>
-                <p class="section-subtitle">Algunos trabajos en los que he aplicado mis conocimientos</p>
+                <p class="section-subtitle">Soluciones reales creadas desde cero con foco en seguridad y rendimiento</p>
                 <div class="projects-grid">
-                    <!-- Proyecto 1 -->
+
+                    <!-- Proyecto 1: Olé España -->
                     <article class="project-card">
-                        <div class="project-header">
-                            <span class="project-icon">🔒</span>
-                            <span class="project-status">En línea</span>
+                        <div class="project-browser-bar">
+                            <span class="browser-dot browser-dot--red"></span>
+                            <span class="browser-dot browser-dot--yellow"></span>
+                            <span class="browser-dot browser-dot--green"></span>
+                            <span class="browser-url">https://olehispania.com</span>
                         </div>
-                        <h3>Olé España</h3>
-                        <p>
-                            Web e-commerce creada a código desde cero, con integración de APIs de pago,
-                            seguridad anti-inyección de código XSS, validación de tokens y sistema de logs.
-                        </p>
-                        <div class="project-tech">
-                            <span class="badge">PHP</span>
-                            <span class="badge">CSS3</span>
-                            <span class="badge">JavaScript</span>
-                            <span class="badge">APIs de pago</span>
+                        <div class="project-body">
+                            <div class="project-header">
+                                <div class="project-title-group">
+                                    <div class="project-icon">🎖️</div>
+                                    <h3>Olé España</h3>
+                                </div>
+                                <span class="project-status"><span class="status-dot"></span> En línea</span>
+                            </div>
+                            <p>
+                                Tienda online de efectos militares españoles construida desde cero sin CMS.
+                                Arquitectura propia con API REST, pasarela de pago, tokens CSRF, Google Consent Mode v2
+                                para cumplimiento RGPD, GTM/GA4, SEO avanzado con datos estructurados JSON-LD
+                                y rendimiento optimizado con CSS crítico inline y fuentes locales.
+                            </p>
+                            <div class="project-features">
+                                <span class="project-feature"><span class="feat-icon">💳</span> Pasarela de pago</span>
+                                <span class="project-feature"><span class="feat-icon">🔑</span> CSRF Tokens</span>
+                                <span class="project-feature"><span class="feat-icon">🛡️</span> Consent Mode v2</span>
+                                <span class="project-feature"><span class="feat-icon">📊</span> GTM + GA4</span>
+                                <span class="project-feature"><span class="feat-icon">⚡</span> Critical CSS</span>
+                                <span class="project-feature"><span class="feat-icon">🗂️</span> JSON-LD</span>
+                            </div>
+                            <div class="project-tech">
+                                <span class="badge badge-pro">PHP</span>
+                                <span class="badge badge-pro">JavaScript</span>
+                                <span class="badge badge-pro">CSS3</span>
+                                <span class="badge badge-pro">MySQL</span>
+                                <span class="badge">REST API</span>
+                                <span class="badge">APIs de pago</span>
+                                <span class="badge">XML</span>
+                                <span class="badge">Analytics</span>
+                            </div>
+                            <a href="https://olehispania.com" target="_blank" rel="noopener noreferrer" class="project-link">
+                                🌐 Visitar sitio <span class="link-arrow">→</span>
+                            </a>
                         </div>
-                        <a href="https://olehispania.com" target="_blank" rel="noopener noreferrer" class="project-link">🌐 olehispania.com →</a>
                     </article>
 
-                    <!-- Proyecto 2 -->
+                    <!-- Proyecto 2: Biotec Ambiental -->
                     <article class="project-card">
-                        <div class="project-header">
-                            <span class="project-icon">🌱</span>
-                            <span class="project-status">En línea</span>
+                        <div class="project-browser-bar">
+                            <span class="browser-dot browser-dot--red"></span>
+                            <span class="browser-dot browser-dot--yellow"></span>
+                            <span class="browser-dot browser-dot--green"></span>
+                            <span class="browser-url">https://controldeplagasengranada.com</span>
                         </div>
-                        <h3>Biotec Ambiental Granada</h3>
-                        <p>
-                            Web para una empresa de control de plagas, desarrollada con
-                            controles de seguridad frente a la inyección de código XSS y validaciones
-                            del lado del servidor.
-                        </p>
-                        <div class="project-tech">
-                            <span class="badge">PHP</span>
-                            <span class="badge">CSS3</span>
-                            <span class="badge">JavaScript</span>
+                        <div class="project-body">
+                            <div class="project-header">
+                                <div class="project-title-group">
+                                    <div class="project-icon">🌱</div>
+                                    <h3>Biotec Ambiental Granada</h3>
+                                </div>
+                                <span class="project-status"><span class="status-dot"></span> En línea</span>
+                            </div>
+                            <p>
+                                Web corporativa para empresa de control de plagas con +30 años de trayectoria.
+                                Arquitectura SEO-first con datos estructurados LocalBusiness, Open Graph, geo-meta tags,
+                                carga asíncrona de CSS, CSS crítico inline para LCP óptimo, formularios seguros
+                                con validación servidor y diseño responsive mobile-first.
+                            </p>
+                            <div class="project-features">
+                                <span class="project-feature"><span class="feat-icon">🎯</span> SEO Local</span>
+                                <span class="project-feature"><span class="feat-icon">🗂️</span> Schema.org</span>
+                                <span class="project-feature"><span class="feat-icon">⚡</span> LCP optimizado</span>
+                                <span class="project-feature"><span class="feat-icon">✅</span> Validación servidor</span>
+                                <span class="project-feature"><span class="feat-icon">📱</span> Mobile-first</span>
+                                <span class="project-feature"><span class="feat-icon">🛡️</span> Anti-XSS</span>
+                            </div>
+                            <div class="project-tech">
+                                <span class="badge badge-pro">PHP</span>
+                                <span class="badge badge-pro">JavaScript</span>
+                                <span class="badge badge-pro">CSS3</span>
+                                <span class="badge badge-pro">MySQL</span>
+                                <span class="badge">Bootstrap</span>
+                                <span class="badge">REST API</span>
+                                <span class="badge">XML</span>
+                                <span class="badge">SEO</span>
+                            </div>
+                            <a href="https://controldeplagasengranada.com" target="_blank" rel="noopener noreferrer" class="project-link">
+                                🌐 Visitar sitio <span class="link-arrow">→</span>
+                            </a>
                         </div>
-                        <a href="https://controldeplagasengranada.com" target="_blank" rel="noopener noreferrer" class="project-link">🌐 controldeplagasengranada.com →</a>
                     </article>
+
                 </div>
             </div>
         </section>
@@ -889,20 +1324,88 @@
         <section class="education" id="formacion">
             <div class="container">
                 <h2 class="section-title">Educación &amp; <span>Formación</span></h2>
-                <p class="section-subtitle">Mi trayectoria académica</p>
-                <div class="timeline">
-                    <article class="timeline-item">
-                        <h3>Grado Superior en Desarrollo de Aplicaciones Web (DAW)</h3>
-                        <span class="timeline-meta">Formación oficial</span>
+                <p class="section-subtitle">Mi trayectoria académica y los logros que me definen</p>
+
+                <div class="education-grid">
+
+                    <!-- Máster en Ciberseguridad -->
+                    <article class="edu-card">
+                        <div class="edu-card-header">
+                            <div class="edu-icon">🔐</div>
+                            <div class="edu-card-info">
+                                <h3>Máster en Ciberseguridad</h3>
+                                <div class="edu-institution">🏛️ Formación Especializada</div>
+                                <div class="edu-date">2022 — 2023</div>
+                            </div>
+                            <span class="edu-status edu-status--completed">✓ Completado</span>
+                        </div>
+                        <p class="edu-description">
+                            Formación avanzada en seguridad ofensiva y defensiva: pentesting, análisis forense,
+                            ingeniería inversa, hardening de sistemas y protección de infraestructuras.
+                        </p>
+                        <div class="edu-grade">
+                            <span class="edu-grade-label">Certificación</span>
+                            <span class="edu-grade-value">CISSP · ISC2</span>
+                        </div>
+                        <div class="edu-tags">
+                            <span class="badge badge-pro">Pentesting</span>
+                            <span class="badge badge-pro">Forense</span>
+                            <span class="badge badge-pro">Reverse Engineering</span>
+                            <span class="badge badge-pro">Hardening</span>
+                            <span class="badge">OSINT</span>
+                        </div>
                     </article>
-                    <article class="timeline-item award">
-                        <h3>Premio Trayectoria en DAW</h3>
-                        <span class="timeline-meta">Reconocimiento académico</span>
+
+                    <!-- Conector -->
+                    <div class="edu-connector"><div class="edu-connector-dot"></div></div>
+
+                    <!-- Premio Trayectoria -->
+                    <article class="edu-card edu-card--award">
+                        <div class="edu-card-header">
+                            <div class="edu-icon">🏆</div>
+                            <div class="edu-card-info">
+                                <h3>Premio Trayectoria en DAW</h3>
+                                <div class="edu-institution">⭐ Reconocimiento académico</div>
+                                <div class="edu-date">2022</div>
+                            </div>
+                            <span class="edu-status edu-status--award">★ Premio</span>
+                        </div>
+                        <p class="edu-description">
+                            Reconocimiento otorgado al mejor expediente académico y trayectoria de excelencia
+                            durante el Grado Superior en Desarrollo de Aplicaciones Web.
+                        </p>
                     </article>
-                    <article class="timeline-item">
-                        <h3>Máster en Ciberseguridad</h3>
-                        <span class="timeline-meta">Titulación 8.6 UE</span>
+
+                    <!-- Conector -->
+                    <div class="edu-connector"><div class="edu-connector-dot"></div></div>
+
+                    <!-- Grado Superior DAW -->
+                    <article class="edu-card">
+                        <div class="edu-card-header">
+                            <div class="edu-icon">💻</div>
+                            <div class="edu-card-info">
+                                <h3>Grado Superior en Desarrollo de Aplicaciones Web</h3>
+                                <div class="edu-institution">🎓 Formación Profesional — CFGS</div>
+                                <div class="edu-date">2020 — 2022</div>
+                            </div>
+                            <span class="edu-status edu-status--completed">✓ Completado</span>
+                        </div>
+                        <p class="edu-description">
+                            Formación integral en desarrollo full-stack: diseño de interfaces, programación
+                            del lado servidor y cliente, bases de datos, despliegue de aplicaciones web
+                            y administración de sistemas.
+                        </p>
+                        <div class="edu-tags">
+                            <span class="badge badge-pro">HTML5</span>
+                            <span class="badge badge-pro">CSS3</span>
+                            <span class="badge badge-pro">JavaScript</span>
+                            <span class="badge badge-pro">PHP</span>
+                            <span class="badge badge-pro">SQL</span>
+                            <span class="badge">Java</span>
+                            <span class="badge">Despliegue</span>
+                        </div>
                     </article>
+
                 </div>
             </div>
         </section>
